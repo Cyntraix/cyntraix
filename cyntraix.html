@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cyntraix — Simple Sophistication in Cybersecurity</title>
+<meta name="description" content="Cyntraix is a premier high-tech cyber solutions provider. Precision, proactive intelligence, and uncompromising data integrity for the modern enterprise." />
+<link rel="icon" type="image/jpeg" href="cyntraix-logo.jpeg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Geist:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* ============ RESET ============ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { min-height: 100vh; overflow-x: hidden; }
+  img { max-width: 100%; display: block; }
+  button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+  a { color: inherit; text-decoration: none; }
+
+  /* ============ DESIGN TOKENS ============ */
+  :root {
+    --bg: #0a0a0c;
+    --bg-elev: #121216;
+    --ink: #f2ede3;
+    --ink-dim: #a8a49c;
+    --ink-muted: #5d5a54;
+    --line: #1f2026;
+    --line-bright: #33343c;
+
+    --accent: #f25c2b;           /* fiery orange — logo primary */
+    --accent-deep: #d93d12;      /* logo gradient end */
+    --accent-light: #ff7a4d;
+    --accent-grad: linear-gradient(135deg, #f56b3c 0%, #e53e17 100%);
+    --success: #6fb37a;
+
+    --serif: 'Fraunces', 'Times New Roman', serif;
+    --sans:  'Geist', system-ui, -apple-system, sans-serif;
+    --mono:  'JetBrains Mono', ui-monospace, monospace;
+
+    --max: 1400px;
+    --gutter: clamp(20px, 4vw, 56px);
+    --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: -0.005em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection { background: var(--accent); color: var(--bg); }
+
+  /* ============ ATMOSPHERE ============ */
+  .grain {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 100;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    mix-blend-mode: overlay;
+  }
+
+  .grid-veil {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse at center, black 20%, transparent 85%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 85%);
+  }
+
+  .aurora {
+    position: fixed;
+    top: -20%; right: -10%;
+    width: 60vw; height: 60vw;
+    pointer-events: none; z-index: 0;
+    background: radial-gradient(circle, rgba(242, 92, 43, 0.12) 0%, transparent 60%);
+    filter: blur(60px);
+  }
+  .aurora.two {
+    top: auto; right: auto;
+    bottom: -20%; left: -20%;
+    background: radial-gradient(circle, rgba(217, 61, 18, 0.08) 0%, transparent 60%);
+  }
+
+  main, nav, footer { position: relative; z-index: 1; }
+
+  /* ============ TYPOGRAPHY ============ */
+  .display {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-variation-settings: "opsz" 144, "SOFT" 50;
+    letter-spacing: -0.03em;
+    line-height: 0.95;
+  }
+  .mono-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+
+  /* ============ LAYOUT ============ */
+  .wrap {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
+  }
+  .section { padding: clamp(80px, 12vh, 160px) 0; position: relative; }
+  .section + .section:not(.seamless) { border-top: 1px solid var(--line); }
+
+  /* ============ NAV ============ */
+  nav.top {
+    position: sticky; top: 0;
+    padding: 18px var(--gutter);
+    display: flex; align-items: center; justify-content: space-between;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: rgba(10, 10, 12, 0.7);
+    border-bottom: 1px solid var(--line);
+    z-index: 50;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 12px;
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    font-variation-settings: "opsz" 14;
+  }
+  .brand-mark {
+    width: 32px; height: 32px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 14px rgba(242, 92, 43, 0.4));
+  }
+  .brand-text sup {
+    color: var(--accent);
+    font-size: 9px;
+    margin-left: 3px;
+    font-family: var(--mono);
+    font-weight: 500;
+    vertical-align: 10px;
+  }
+
+  .nav-links {
+    display: flex; gap: 34px; align-items: center;
+    font-family: var(--mono); font-size: 12px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .nav-links a { position: relative; transition: color 0.3s var(--ease); }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links a::after {
+    content: ""; position: absolute; left: 0; bottom: -6px;
+    width: 0; height: 1px; background: var(--accent);
+    transition: width 0.3s var(--ease);
+  }
+  .nav-links a:hover::after { width: 100%; }
+  @media (max-width: 860px) { .nav-links { display: none; } }
+
+  .cta-btn {
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 13px 22px;
+    border: 1px solid var(--line-bright);
+    background: transparent;
+    color: var(--ink);
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: all 0.35s var(--ease);
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .cta-btn::before {
+    content: ""; position: absolute; inset: 0;
+    background: var(--accent-grad);
+    transform: translateY(102%);
+    transition: transform 0.45s var(--ease);
+    z-index: -1;
+  }
+  .cta-btn:hover { color: #fff; border-color: var(--accent); }
+  .cta-btn:hover::before { transform: translateY(0); }
+  .cta-btn .arrow { transition: transform 0.3s var(--ease); display: inline-block; }
+  .cta-btn:hover .arrow { transform: translate(3px, -3px); }
+  .cta-btn.primary {
+    background: var(--accent-grad);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .cta-btn.primary::before {
+    background: #fff;
+    transform: translateY(102%);
+  }
+  .cta-btn.primary:hover { color: var(--bg); border-color: var(--ink); }
+  .cta-btn.primary:hover::before { transform: translateY(0); }
+
+  /* ============ HERO ============ */
+  .hero {
+    min-height: calc(100vh - 70px);
+    padding: clamp(60px, 10vh, 120px) 0;
+    display: grid;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 60px;
+    align-items: end;
+  }
+  @media (min-width: 960px) {
+    .hero-grid { grid-template-columns: 1.45fr 1fr; gap: 80px; }
+  }
+  .hero-eyebrow {
+    display: flex; gap: 18px; align-items: center;
+    margin-bottom: 42px;
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .hero-eyebrow .pulse {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+    animation: pulse 2.2s var(--ease) infinite;
+  }
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(242, 92, 43, 0.7); }
+    70%  { box-shadow: 0 0 0 14px rgba(242, 92, 43, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(242, 92, 43, 0); }
+  }
+  .hero-eyebrow .sep {
+    width: 1px; height: 12px; background: var(--line-bright);
+  }
+  .hero h1 {
+    font-size: clamp(48px, 8.4vw, 128px);
+    font-weight: 300;
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    font-family: var(--serif);
+    font-variation-settings: "opsz" 144;
+  }
+  .hero h1 .line { display: block; overflow: hidden; padding: 0.02em 0; }
+  .hero h1 .line > span {
+    display: inline-block;
+    transform: translateY(110%);
+    animation: rise 1.1s var(--ease) forwards;
+  }
+  .hero h1 .line:nth-child(1) > span { animation-delay: 0.1s; }
+  .hero h1 .line:nth-child(2) > span { animation-delay: 0.22s; }
+  .hero h1 .line:nth-child(3) > span { animation-delay: 0.34s; }
+  @keyframes rise {
+    from { transform: translateY(110%); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+  }
+  .hero h1 em {
+    font-style: italic;
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 300;
+  }
+
+  .hero-sub {
+    margin-top: 36px;
+    font-size: clamp(15px, 1.15vw, 17px);
+    color: var(--ink-dim);
+    max-width: 50ch;
+    line-height: 1.58;
+    opacity: 0;
+    animation: fadeUp 1s var(--ease) 0.7s forwards;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-cta-row {
+    margin-top: 48px;
+    display: flex; gap: 14px; flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 1s var(--ease) 0.9s forwards;
+  }
+
+  /* Hero scope panel */
+  .scope {
+    border: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(18,18,22,0.75), rgba(18,18,22,0.4));
+    backdrop-filter: blur(8px);
+    padding: 28px;
+    position: relative;
+    opacity: 0;
+    animation: fadeUp 1.2s var(--ease) 0.55s forwards;
+  }
+  .scope::before, .scope::after {
+    content: ""; position: absolute;
+    width: 12px; height: 12px;
+    border: 1px solid var(--accent);
+  }
+  .scope::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+  .scope::after  { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+  .scope-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 18px;
+  }
+  .scope-head .label {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .scope-head .label::before {
+    content: ""; width: 6px; height: 6px;
+    background: var(--accent); border-radius: 50%;
+    animation: blink 1.4s ease-in-out infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+  .scope-head .ts {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--ink-muted);
+    letter-spacing: 0.1em;
+  }
+  .scope-row {
+    display: grid; grid-template-columns: 1fr auto;
+    padding: 11px 0;
+    font-family: var(--mono); font-size: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .scope-row:last-of-type { border-bottom: none; }
+  .scope-row .k { color: var(--ink-dim); }
+  .scope-row .v { color: var(--ink); letter-spacing: 0.05em; }
+  .scope-row .v.ok     { color: var(--success); }
+  .scope-row .v.armed  { color: var(--accent); }
+
+  .scope-meter { margin-top: 22px; }
+  .scope-meter .bar {
+    height: 2px; background: var(--line);
+    position: relative; overflow: hidden;
+  }
+  .scope-meter .bar::after {
+    content: ""; position: absolute; inset: 0;
+    width: 42%;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    animation: sweep 3.2s var(--ease) infinite;
+  }
+  @keyframes sweep {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(240%); }
+  }
+  .scope-meter .lbl {
+    display: flex; justify-content: space-between;
+    font-family: var(--mono); font-size: 10px;
+    color: var(--ink-muted);
+    margin-top: 10px;
+    letter-spacing: 0.1em;
+  }
+
+  /* ============ STAT BAND ============ */
+  .statband {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .statband-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    max-width: var(--max);
+    margin: 0 auto;
+  }
+  @media (max-width: 720px) { .statband-grid { grid-template-columns: repeat(2, 1fr); } }
+  .stat {
+    padding: 44px var(--gutter);
+    border-right: 1px solid var(--line);
+    transition: background 0.4s var(--ease);
+  }
+  .stat:hover { background: rgba(242, 92, 43, 0.04); }
+  .stat:last-child { border-right: none; }
+  @media (max-width: 720px) {
+    .stat:nth-child(2) { border-right: none; }
+    .stat:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  }
+  .stat .n {
+    font-family: var(--serif);
+    font-size: clamp(36px, 4.4vw, 54px);
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    font-variation-settings: "opsz" 144;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .stat .n .unit {
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 0.55em;
+    margin-left: 4px;
+    font-style: italic;
+  }
+  .stat .k {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--ink-dim);
+    letter-spacing: 0.14em; text-transform: uppercase;
+    margin-top: 14px;
+  }
+
+  /* ============ SECTION HEAD ============ */
+  .sec-head {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+    margin-bottom: 80px;
+  }
+  @media (min-width: 960px) {
+    .sec-head { grid-template-columns: 1fr 1.7fr; gap: 100px; }
+  }
+  .sec-head .idx {
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent);
+  }
+  .sec-head .idx-num {
+    color: var(--ink-muted);
+    margin-right: 14px;
+    letter-spacing: 0.1em;
+  }
+  .sec-head h2 {
+    font-family: var(--serif);
+    font-size: clamp(38px, 4.8vw, 68px);
+    font-weight: 300;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    font-variation-settings: "opsz" 144;
+  }
+  .sec-head h2 em {
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-style: italic;
+  }
+  .sec-head .lede {
+    margin-top: 26px;
+    color: var(--ink-dim);
+    font-size: 17px;
+    line-height: 1.6;
+    max-width: 58ch;
+  }
+
+  /* ============ PHILOSOPHY ============ */
+  .philosophy {
+    display: grid; grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  @media (min-width: 960px) {
+    .philosophy { grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  }
+  .philosophy-block {
+    border-top: 1px solid var(--line);
+    padding-top: 30px;
+  }
+  .philosophy-block h3 {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+  }
+  .philosophy-block p {
+    color: var(--ink-dim);
+    font-size: 16px;
+    line-height: 1.65;
+  }
+  .philosophy-block p + p { margin-top: 14px; }
+
+  .philosophy-quote {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(26px, 2.8vw, 38px);
+    line-height: 1.22;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    padding: 36px 44px;
+    border-left: 2px solid var(--accent);
+    position: relative;
+    background: linear-gradient(90deg, rgba(242,92,43,0.03), transparent);
+  }
+  .philosophy-quote::before {
+    content: "“";
+    position: absolute;
+    top: -18px; left: 24px;
+    font-size: 110px;
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--serif);
+    line-height: 1;
+  }
+  .philosophy-quote cite {
+    display: block;
+    font-family: var(--mono);
+    font-style: normal;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-top: 24px;
+  }
+  .philosophy-quote cite::before { content: "—  "; color: var(--accent); }
+
+  /* ============ DIFFERENTIATORS ============ */
+  .diff-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 960px) { .diff-grid { grid-template-columns: repeat(3, 1fr); } }
+  .diff {
+    padding: 48px 36px 48px 0;
+    position: relative;
+    border-top: 1px solid var(--line);
+    transition: background 0.5s var(--ease);
+  }
+  @media (min-width: 960px) {
+    .diff {
+      padding: 56px 40px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .diff:last-child { border-right: none; }
+  }
+  .diff:hover { background: rgba(242, 92, 43, 0.035); }
+  .diff:hover .diff-num .glyph { transform: rotate(15deg) scale(1.1); }
+  .diff-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--ink-muted);
+    margin-bottom: 48px;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .diff-num .glyph {
+    font-family: var(--serif); font-style: italic;
+    font-size: 44px; line-height: 0.8;
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 300;
+    transition: transform 0.5s var(--ease);
+    transform-origin: center;
+  }
+  .diff h3 {
+    font-family: var(--serif);
+    font-size: clamp(26px, 2.2vw, 32px);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    line-height: 1.08;
+    margin-bottom: 20px;
+  }
+  .diff h3 em {
+    color: var(--accent);
+    font-style: italic;
+  }
+  .diff p {
+    color: var(--ink-dim);
+    font-size: 15px;
+    line-height: 1.62;
+  }
+  .diff ul {
+    list-style: none;
+    margin-top: 26px;
+    padding-top: 24px;
+    border-top: 1px dashed var(--line-bright);
+  }
+  .diff ul li {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    padding: 7px 0;
+    display: flex; gap: 12px;
+  }
+  .diff ul li::before {
+    content: "▸";
+    color: var(--accent);
+    font-size: 9px;
+  }
+
+  /* ============ COMPETENCIES — BENTO ============ */
+  .comp-bento {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: minmax(180px, auto);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .comp {
+    grid-column: span 6;
+    background: var(--bg);
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.5s var(--ease);
+    display: flex; flex-direction: column; justify-content: space-between;
+    min-height: 200px;
+  }
+  @media (min-width: 700px) { .comp { grid-column: span 3; } }
+  @media (min-width: 1000px) {
+    .comp:nth-child(1) { grid-column: span 3; grid-row: span 2; }
+    .comp:nth-child(2) { grid-column: span 3; }
+    .comp:nth-child(3) { grid-column: span 3; }
+    .comp:nth-child(4) { grid-column: span 2; grid-row: span 2; }
+    .comp:nth-child(5) { grid-column: span 2; }
+    .comp:nth-child(6) { grid-column: span 2; }
+    .comp:nth-child(7) { grid-column: span 2; }
+    .comp:nth-child(8) { grid-column: span 2; }
+  }
+  .comp:hover { background: #0f1014; }
+  .comp:hover .rune { color: var(--accent); transform: rotate(-6deg) scale(1.05); }
+  .comp:hover .comp-idx { color: var(--accent); }
+
+  .comp-idx {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-muted);
+    transition: color 0.4s var(--ease);
+  }
+  .comp h4 {
+    font-family: var(--serif);
+    font-size: clamp(22px, 2vw, 28px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    margin-top: 18px;
+  }
+  .comp h4 em {
+    font-style: italic;
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .comp p {
+    color: var(--ink-dim);
+    font-size: 14px;
+    line-height: 1.55;
+    margin-top: 14px;
+  }
+  .comp:nth-child(1) h4, .comp:nth-child(4) h4 {
+    font-size: clamp(28px, 2.8vw, 42px);
+  }
+  .comp .rune {
+    position: absolute;
+    bottom: 18px; right: 22px;
+    font-family: var(--serif); font-style: italic;
+    font-weight: 300;
+    font-size: 72px;
+    color: var(--line-bright);
+    line-height: 1;
+    transition: color 0.5s var(--ease), transform 0.5s var(--ease);
+    transform-origin: center;
+    pointer-events: none;
+  }
+
+  /* ============ SERVICES ============ */
+  .service-list {
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+  .service-row {
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+  .service-row a {
+    display: grid;
+    grid-template-columns: 70px 1fr auto;
+    align-items: center;
+    padding: 32px 0;
+    gap: 28px;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.5s var(--ease), color 0.3s var(--ease);
+  }
+  .service-row::before {
+    content: ""; position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(242,92,43,0.08) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s var(--ease);
+  }
+  .service-row:hover::before { opacity: 1; }
+  .service-row:hover a { transform: translateX(14px); }
+  .service-row:hover .service-name { color: var(--accent); }
+  .service-row:hover .service-arrow { transform: translate(8px, -8px); color: var(--accent); }
+  .service-row:hover .service-idx { color: var(--accent); }
+
+  .service-idx {
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--ink-muted);
+    transition: color 0.3s var(--ease);
+  }
+  .service-name {
+    font-family: var(--serif);
+    font-size: clamp(26px, 2.8vw, 40px);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    transition: color 0.3s var(--ease);
+  }
+  .service-meta {
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-dim);
+    display: flex; align-items: center; gap: 28px;
+  }
+  .service-arrow {
+    display: inline-block;
+    transition: transform 0.4s var(--ease), color 0.3s var(--ease);
+    color: var(--ink-muted);
+    font-size: 18px;
+  }
+  @media (max-width: 720px) {
+    .service-row a { grid-template-columns: 44px 1fr auto; gap: 16px; padding: 22px 0; }
+    .service-meta { display: none; }
+  }
+
+  /* ============ APPROACH ============ */
+  .approach-wrap {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 60px;
+  }
+  @media (min-width: 960px) { .approach-wrap { grid-template-columns: 1fr 1.15fr; gap: 100px; } }
+
+  .approach-aside .panel-title {
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 22px;
+  }
+  .approach-aside h3 {
+    font-family: var(--serif);
+    font-size: clamp(30px, 3.2vw, 46px);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    font-variation-settings: "opsz" 144;
+  }
+  .approach-aside h3 em {
+    font-style: italic;
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .approach-aside > p {
+    margin-top: 24px;
+    color: var(--ink-dim);
+    font-size: 15px;
+    line-height: 1.65;
+    max-width: 44ch;
+  }
+  .principle {
+    margin-top: 40px;
+    padding: 26px;
+    border: 1px solid var(--line);
+    background: var(--bg-elev);
+    display: grid;
+    gap: 12px;
+    position: relative;
+  }
+  .principle::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: var(--accent-grad);
+  }
+  .principle .ttl {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .principle .body {
+    font-family: var(--serif); font-style: italic;
+    font-size: 20px; font-weight: 300;
+    line-height: 1.32; letter-spacing: -0.005em;
+  }
+
+  .approach-steps { border-top: 1px solid var(--line); }
+  .step {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 24px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--line);
+    transition: padding 0.4s var(--ease);
+  }
+  .step:hover { padding-left: 8px; }
+  .step-n {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 42px;
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-variation-settings: "opsz" 144;
+    line-height: 1;
+  }
+  .step h4 {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: -0.012em;
+    margin-bottom: 10px;
+    line-height: 1.1;
+  }
+  .step p {
+    color: var(--ink-dim);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .step .tags {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-top: 16px;
+  }
+  .step .tags span {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-muted);
+    padding: 5px 10px;
+    border: 1px solid var(--line-bright);
+    transition: all 0.3s var(--ease);
+  }
+  .step:hover .tags span { color: var(--ink-dim); border-color: var(--line-bright); }
+
+  /* ============ MARQUEE ============ */
+  .marquee {
+    overflow: hidden;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 36px 0;
+    background: var(--bg);
+  }
+  .marquee-track {
+    display: flex;
+    gap: 80px;
+    width: max-content;
+    animation: scroll 42s linear infinite;
+    font-family: var(--serif); font-style: italic;
+    font-weight: 300;
+    font-size: clamp(34px, 4.2vw, 60px);
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    font-variation-settings: "opsz" 144;
+    align-items: center;
+  }
+  .marquee-track span.word { color: var(--ink); }
+  .marquee-track span.word-accent {
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .marquee-track .dot {
+    color: var(--accent);
+    font-style: normal;
+    font-family: var(--sans);
+    font-size: 0.4em;
+    line-height: 1;
+  }
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ============ AVAILABILITY ============ */
+  .avail-grid {
+    display: grid; grid-template-columns: 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  @media (min-width: 720px) { .avail-grid { grid-template-columns: repeat(3, 1fr); } }
+  .avail-cell {
+    background: var(--bg);
+    padding: 40px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .avail-cell .lbl {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 22px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .avail-cell .lbl::before {
+    content: "[";
+    font-family: var(--mono); color: var(--ink-muted);
+  }
+  .avail-cell .lbl::after {
+    content: "]";
+    font-family: var(--mono); color: var(--ink-muted);
+  }
+  .avail-cell .val {
+    font-family: var(--serif);
+    font-size: clamp(28px, 3vw, 38px);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    font-variation-settings: "opsz" 144;
+    line-height: 1.05;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .avail-cell .sub {
+    margin-top: 16px;
+    color: var(--ink-dim);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .avail-cell .dot {
+    display: inline-block;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--success);
+    box-shadow: 0 0 14px rgba(111, 179, 122, 0.7);
+    animation: blink 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  /* ============ CTA BLOCK ============ */
+  .cta-block {
+    padding: clamp(100px, 16vh, 180px) var(--gutter);
+    text-align: center;
+    border-top: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-block::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(242,92,43,0.12), transparent 60%);
+    pointer-events: none;
+  }
+  .cta-block::after {
+    content: "";
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 60%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+  .cta-mark {
+    width: 80px; height: 80px;
+    margin: 0 auto 40px;
+    filter: drop-shadow(0 0 30px rgba(242, 92, 43, 0.5));
+    animation: floaty 6s ease-in-out infinite;
+  }
+  @keyframes floaty {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .cta-block .eyebrow {
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 32px;
+  }
+  .cta-block h2 {
+    font-family: var(--serif);
+    font-size: clamp(44px, 7.2vw, 112px);
+    font-weight: 300;
+    line-height: 0.96;
+    letter-spacing: -0.035em;
+    font-variation-settings: "opsz" 144;
+    max-width: 14ch;
+    margin: 0 auto;
+  }
+  .cta-block h2 em {
+    font-style: italic;
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .cta-block .sub {
+    margin: 32px auto 48px;
+    max-width: 54ch;
+    color: var(--ink-dim);
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  .cta-block .actions {
+    display: inline-flex; gap: 14px;
+    flex-wrap: wrap; justify-content: center;
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 80px var(--gutter) 40px;
+    position: relative;
+  }
+  .footer-grid {
+    max-width: var(--max);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+    padding-bottom: 60px;
+    border-bottom: 1px solid var(--line);
+  }
+  @media (min-width: 800px) {
+    .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; }
+  }
+  .foot-brand .brand { margin-bottom: 24px; font-size: 28px; }
+  .foot-brand p {
+    color: var(--ink-dim);
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 42ch;
+  }
+  .foot-social {
+    display: flex; gap: 10px;
+    margin-top: 28px;
+  }
+  .foot-social a {
+    width: 40px; height: 40px;
+    border: 1px solid var(--line-bright);
+    display: grid; place-items: center;
+    transition: all 0.3s var(--ease);
+  }
+  .foot-social a:hover {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: #fff;
+  }
+  .foot-social svg { width: 16px; height: 16px; }
+
+  .foot-col h5 {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 22px;
+  }
+  .foot-col ul { list-style: none; }
+  .foot-col li { padding: 7px 0; }
+  .foot-col a {
+    font-size: 14px; color: var(--ink-dim);
+    transition: color 0.3s var(--ease);
+  }
+  .foot-col a:hover { color: var(--accent); }
+
+  .foot-base {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding-top: 32px;
+    display: flex; justify-content: space-between;
+    flex-wrap: wrap; gap: 20px;
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+  }
+  .foot-base a { color: var(--ink-muted); transition: color 0.3s var(--ease); }
+  .foot-base a:hover { color: var(--accent); }
+
+  /* ============ REVEAL ============ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 1s var(--ease), transform 1s var(--ease);
+  }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  .reveal.delay-1 { transition-delay: 0.08s; }
+  .reveal.delay-2 { transition-delay: 0.16s; }
+  .reveal.delay-3 { transition-delay: 0.24s; }
+  .reveal.delay-4 { transition-delay: 0.32s; }
+
+  /* Motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    .reveal { opacity: 1; transform: none; }
+    .hero h1 .line > span { transform: none; opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="grid-veil"></div>
+<div class="aurora"></div>
+<div class="aurora two"></div>
+
+<!-- ============ NAV ============ -->
+<nav class="top">
+  <a href="#top" class="brand" aria-label="Cyntraix home">
+    <img src="cyntraix-logo.jpeg" alt="" class="brand-mark" />
+    <span class="brand-text">Cyntraix<sup>™</sup></span>
+  </a>
+  <div class="nav-links" role="navigation">
+    <a href="#philosophy">Philosophy</a>
+    <a href="#approach">Approach</a>
+    <a href="#competencies">Competencies</a>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a href="#contact" class="cta-btn">
+    Request services
+    <span class="arrow" aria-hidden="true">↗</span>
+  </a>
+</nav>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="hero-eyebrow">
+          <span class="pulse" aria-hidden="true"></span>
+          <span>Cybersecurity · High-Tech</span>
+          <span class="sep" aria-hidden="true"></span>
+          <span>Est. 2025</span>
+        </div>
+        <h1>
+          <span class="line"><span>Simple</span></span>
+          <span class="line"><span>sophistication,</span></span>
+          <span class="line"><span><em>engineered.</em></span></span>
+        </h1>
+        <p class="hero-sub">
+          Cyntraix is a premier high-tech cyber solutions provider. We protect the digital heartbeat
+          of modern enterprises through precision, proactive intelligence, and an unwavering commitment
+          to the absolute integrity of your data.
+        </p>
+        <div class="hero-cta-row">
+          <a href="#contact" class="cta-btn primary">
+            Begin an engagement
+            <span class="arrow" aria-hidden="true">↗</span>
+          </a>
+          <a href="#philosophy" class="cta-btn">
+            Read our philosophy
+            <span class="arrow" aria-hidden="true">↓</span>
+          </a>
+        </div>
+      </div>
+
+      <aside class="scope" aria-label="Posture panel">
+        <div class="scope-head">
+          <span class="label">Posture · Live</span>
+          <span class="ts" id="liveClock">— : — : —</span>
+        </div>
+        <div class="scope-row"><span class="k">operating_mode</span><span class="v armed">ARMED</span></div>
+        <div class="scope-row"><span class="k">trust_model</span><span class="v">ZERO_TRUST</span></div>
+        <div class="scope-row"><span class="k">perimeter</span><span class="v ok">RESILIENT</span></div>
+        <div class="scope-row"><span class="k">surface_drift</span><span class="v ok">WITHIN_SPEC</span></div>
+        <div class="scope-row"><span class="k">intel_feeds</span><span class="v armed">42 ACTIVE</span></div>
+        <div class="scope-row"><span class="k">engagement</span><span class="v">REMOTE</span></div>
+        <div class="scope-meter">
+          <div class="bar" aria-hidden="true"></div>
+          <div class="lbl">
+            <span>Continuous monitoring</span>
+            <span>∿ 24/7</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ STAT BAND ============ -->
+  <section class="statband section seamless" style="padding: 0;">
+    <div class="statband-grid">
+      <div class="stat reveal">
+        <div class="n">24<span class="unit">/7</span></div>
+        <div class="k">Continuous Posture</div>
+      </div>
+      <div class="stat reveal delay-1">
+        <div class="n">0<span class="unit">trust</span></div>
+        <div class="k">Default Architecture</div>
+      </div>
+      <div class="stat reveal delay-2">
+        <div class="n">&lt;15<span class="unit">min</span></div>
+        <div class="k">Incident Acknowledgement</div>
+      </div>
+      <div class="stat reveal delay-3">
+        <div class="n">∞<span class="unit">scope</span></div>
+        <div class="k">Surface Coverage</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PHILOSOPHY ============ -->
+  <section class="section" id="philosophy">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="idx reveal"><span class="idx-num">01 —</span>Overview</div>
+        <div>
+          <h2 class="reveal delay-1">The most powerful security <em>is the most refined.</em></h2>
+          <p class="lede reveal delay-2">
+            Cyntraix was founded on the principle of <strong style="color: var(--ink); font-weight: 500;">Simple Sophistication</strong>: 
+            creating high-performance defense architectures that are seamless for our clients to navigate
+            but impenetrable for those who seek to do harm.
+          </p>
+        </div>
+      </div>
+
+      <div class="philosophy">
+        <div class="philosophy-block reveal">
+          <h3>Our philosophy</h3>
+          <p>
+            We move away from the cluttered, reactive methods of the past. Our approach is minimalist
+            in design but maximum in impact.
+          </p>
+          <p>
+            By stripping away the noise, we focus on what truly matters: proactive intelligence,
+            resilient infrastructure, and the absolute integrity of your data. In an era of
+            increasingly frequent and complex digital threats, <em style="color: var(--ink); font-style: italic;">"good enough"</em> is no longer an option.
+          </p>
+        </div>
+
+        <blockquote class="philosophy-quote reveal delay-2">
+          A defense architecture should be invisible to those it protects, and absolute to those it resists.
+          <cite>Cyntraix engineering principle</cite>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DIFFERENTIATORS ============ -->
+  <section class="section" id="approach">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="idx reveal"><span class="idx-num">02 —</span>What Sets Us Apart</div>
+        <div>
+          <h2 class="reveal delay-1">Three disciplines. <em>One architecture.</em></h2>
+          <p class="lede reveal delay-2">
+            Every engagement at Cyntraix is built on the same foundation — a trinity of disciplines
+            that shape how we design, defend, and deliver.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <div class="diff-grid">
+        <article class="diff reveal">
+          <div class="diff-num">
+            <span>01 / Principle</span>
+            <span class="glyph">α</span>
+          </div>
+          <h3>Minimalist <em>Precision.</em></h3>
+          <p>
+            Our solutions are engineered to integrate flawlessly into your existing workflow
+            without added complexity. Less surface, less friction, less to defend — and nothing
+            superfluous between you and your work.
+          </p>
+          <ul>
+            <li>Zero-friction deployment</li>
+            <li>Native toolchain integration</li>
+            <li>Signal-only interfaces</li>
+          </ul>
+        </article>
+
+        <article class="diff reveal delay-1">
+          <div class="diff-num">
+            <span>02 / Principle</span>
+            <span class="glyph">β</span>
+          </div>
+          <h3>Sophisticated <em>Defense.</em></h3>
+          <p>
+            We leverage cutting-edge technology to anticipate threats before they manifest.
+            Behavioral analysis, real-time telemetry, and adversarial modeling combine into
+            a posture that is not merely watchful — it is already ahead.
+          </p>
+          <ul>
+            <li>Behavioral threat anticipation</li>
+            <li>Adversarial simulation</li>
+            <li>Pre-emptive containment</li>
+          </ul>
+        </article>
+
+        <article class="diff reveal delay-2">
+          <div class="diff-num">
+            <span>03 / Principle</span>
+            <span class="glyph">γ</span>
+          </div>
+          <h3>High-Tech <em>Heritage.</em></h3>
+          <p>
+            Born from a deep understanding of the digital frontier, Cyntraix provides the
+            technical edge required to stay ahead in a rapidly evolving landscape. Every tool
+            we ship is built by people who have seen — and stopped — what's coming next.
+          </p>
+          <ul>
+            <li>Frontier-grade engineering</li>
+            <li>Research-led roadmap</li>
+            <li>Adaptive systems at core</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COMPETENCIES ============ -->
+  <section class="section" id="competencies">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="idx reveal"><span class="idx-num">03 —</span>Core Competencies</div>
+        <div>
+          <h2 class="reveal delay-1">Defense, rendered as <em>architecture.</em></h2>
+          <p class="lede reveal delay-2">
+            Five disciplines form the operational spine of every Cyntraix engagement — composable,
+            layered, and calibrated to your environment.
+          </p>
+        </div>
+      </div>
+
+      <div class="comp-bento reveal">
+        <article class="comp">
+          <div>
+            <div class="comp-idx">C.01 — Flagship</div>
+            <h4>Advanced Threat <em>Intelligence.</em></h4>
+            <p>
+              Real-time ingestion from open, closed, and proprietary feeds, correlated against
+              your environment to surface what is relevant, actionable, and happening now —
+              not what happened yesterday.
+            </p>
+          </div>
+          <div class="rune">Ω</div>
+        </article>
+
+        <article class="comp">
+          <div>
+            <div class="comp-idx">C.02</div>
+            <h4>Zero Trust <em>Architecture</em></h4>
+            <p>Every request verified. Every session scoped. Every asset unprivileged by default.</p>
+          </div>
+          <div class="rune">Ø</div>
+        </article>
+
+        <article class="comp">
+          <div>
+            <div class="comp-idx">C.03</div>
+            <h4>Secure Cloud <em>Infrastructure</em></h4>
+            <p>Hardened baselines across AWS, Azure, and GCP — with drift detection that never sleeps.</p>
+          </div>
+          <div class="rune">§</div>
+        </article>
+
+        <article class="comp">
+          <div>
+            <div class="comp-idx">C.04 — Operations</div>
+            <h4>Proactive Incident <em>Response.</em></h4>
+            <p>
+              Preparation over reaction. We build playbooks, run tabletops, and rehearse
+              containment so that when an incident arrives — and it will — the team acts
+              within muscle memory, not panic.
+            </p>
+          </div>
+          <div class="rune">Λ</div>
+        </article>
+
+        <article class="comp">
+          <div>
+            <div class="comp-idx">C.05</div>
+            <h4>Digital Asset <em>Hardening</em></h4>
+            <p>Identities, endpoints, workloads, data — hardened to spec and verified continuously.</p>
+          </div>
+          <div class="rune">✦</div>
+        </article>
+
+        <article class="comp">
+          <div>
+            <div class="comp-idx">C.06</div>
+            <h4>Governance <em>&amp; Posture</em></h4>
+            <p>Policy as code. Evidence as artifact. Audits as a by-product, not an event.</p>
+          </div>
+          <div class="rune">∎</div>
+        </article>
+
+        <article class="comp">
+          <div>
+            <div class="comp-idx">C.07</div>
+            <h4>Adversarial <em>Simulation</em></h4>
+            <p>Red-team engagements and purple exercises calibrated to your actual adversaries.</p>
+          </div>
+          <div class="rune">⚑</div>
+        </article>
+
+        <article class="comp">
+          <div>
+            <div class="comp-idx">C.08</div>
+            <h4>Data <em>Integrity</em></h4>
+            <p>Provenance, immutability, and cryptographic assurance — from source to sink.</p>
+          </div>
+          <div class="rune">∮</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MARQUEE ============ -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="word">Precision</span><span class="dot">◆</span>
+      <span class="word-accent">Proactive Intelligence</span><span class="dot">◆</span>
+      <span class="word">Resilient Infrastructure</span><span class="dot">◆</span>
+      <span class="word-accent">Data Integrity</span><span class="dot">◆</span>
+      <span class="word">Simple Sophistication</span><span class="dot">◆</span>
+      <span class="word-accent">Zero Trust</span><span class="dot">◆</span>
+      <span class="word">Precision</span><span class="dot">◆</span>
+      <span class="word-accent">Proactive Intelligence</span><span class="dot">◆</span>
+      <span class="word">Resilient Infrastructure</span><span class="dot">◆</span>
+      <span class="word-accent">Data Integrity</span><span class="dot">◆</span>
+      <span class="word">Simple Sophistication</span><span class="dot">◆</span>
+      <span class="word-accent">Zero Trust</span><span class="dot">◆</span>
+    </div>
+  </div>
+
+  <!-- ============ SERVICES ============ -->
+  <section class="section" id="services">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="idx reveal"><span class="idx-num">04 —</span>Services Provided</div>
+        <div>
+          <h2 class="reveal delay-1">Eight practices, <em>one standard.</em></h2>
+          <p class="lede reveal delay-2">
+            Every service is delivered to the same internal spec — documented, auditable, and
+            repeatable. No two clients are the same; the rigor is.
+          </p>
+        </div>
+      </div>
+
+      <ul class="service-list reveal">
+        <li class="service-row">
+          <a href="#contact">
+            <span class="service-idx">S.01</span>
+            <span class="service-name">Information Security</span>
+            <span class="service-meta"><span>Engagement · Remote</span><span class="service-arrow">↗</span></span>
+          </a>
+        </li>
+        <li class="service-row">
+          <a href="#contact">
+            <span class="service-idx">S.02</span>
+            <span class="service-name">Information Management</span>
+            <span class="service-meta"><span>Engagement · Remote</span><span class="service-arrow">↗</span></span>
+          </a>
+        </li>
+        <li class="service-row">
+          <a href="#contact">
+            <span class="service-idx">S.03</span>
+            <span class="service-name">Software Testing</span>
+            <span class="service-meta"><span>Engagement · Remote</span><span class="service-arrow">↗</span></span>
+          </a>
+        </li>
+        <li class="service-row">
+          <a href="#contact">
+            <span class="service-idx">S.04</span>
+            <span class="service-name">Project Management</span>
+            <span class="service-meta"><span>Engagement · Remote</span><span class="service-arrow">↗</span></span>
+          </a>
+        </li>
+        <li class="service-row">
+          <a href="#contact">
+            <span class="service-idx">S.05</span>
+            <span class="service-name">Technical Support</span>
+            <span class="service-meta"><span>Retainer · Remote</span><span class="service-arrow">↗</span></span>
+          </a>
+        </li>
+        <li class="service-row">
+          <a href="#contact">
+            <span class="service-idx">S.06</span>
+            <span class="service-name">Customer Support</span>
+            <span class="service-meta"><span>Retainer · Remote</span><span class="service-arrow">↗</span></span>
+          </a>
+        </li>
+        <li class="service-row">
+          <a href="#contact">
+            <span class="service-idx">S.07</span>
+            <span class="service-name">Educational Consulting</span>
+            <span class="service-meta"><span>Advisory · Remote</span><span class="service-arrow">↗</span></span>
+          </a>
+        </li>
+        <li class="service-row">
+          <a href="#contact">
+            <span class="service-idx">S.08</span>
+            <span class="service-name">IT Law</span>
+            <span class="service-meta"><span>Advisory · Remote</span><span class="service-arrow">↗</span></span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ APPROACH / PROCESS ============ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="idx reveal"><span class="idx-num">05 —</span>Engagement Model</div>
+        <div>
+          <h2 class="reveal delay-1">How we work <em>with you.</em></h2>
+          <p class="lede reveal delay-2">
+            Engagements begin with listening, move through mapping, and settle into a rhythm of
+            deployment and continuous refinement.
+          </p>
+        </div>
+      </div>
+
+      <div class="approach-wrap">
+        <div class="approach-aside reveal">
+          <div class="panel-title">Operating Cadence</div>
+          <h3>Not a project. <em>A posture.</em></h3>
+          <p>
+            Cybersecurity is not a ticket to be closed — it is a discipline to be practiced.
+            Every Cyntraix engagement is structured as an ongoing posture rather than a
+            one-time deliverable, because threats do not respect your release calendar.
+          </p>
+          <div class="principle">
+            <div class="ttl">Working Principle</div>
+            <div class="body">
+              "Prepare quietly, respond precisely, document everything, repeat."
+            </div>
+          </div>
+        </div>
+
+        <div class="approach-steps">
+          <div class="step reveal">
+            <div class="step-n">01</div>
+            <div>
+              <h4>Discover</h4>
+              <p>
+                We map your environment, your threat model, and your business context. Nothing
+                is assumed. Every asset is catalogued, every dependency surfaced, every
+                obligation understood.
+              </p>
+              <div class="tags">
+                <span>Asset Inventory</span><span>Threat Modelling</span><span>Control Baseline</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="step reveal delay-1">
+            <div class="step-n">02</div>
+            <div>
+              <h4>Design</h4>
+              <p>
+                We draft a defense architecture calibrated to your risk tolerance and operational
+                reality — minimal where possible, reinforced where necessary. You see the
+                trade-offs before we write a line of policy.
+              </p>
+              <div class="tags">
+                <span>Zero Trust Design</span><span>Reference Architecture</span><span>Runbooks</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="step reveal delay-2">
+            <div class="step-n">03</div>
+            <div>
+              <h4>Deploy</h4>
+              <p>
+                Controls are rolled out in sequence, validated in production, and documented
+                as they go. Change is measured; regression is impossible by design.
+              </p>
+              <div class="tags">
+                <span>Infrastructure as Code</span><span>Policy as Code</span><span>Evidence Capture</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="step reveal delay-3">
+            <div class="step-n">04</div>
+            <div>
+              <h4>Defend</h4>
+              <p>
+                Continuous monitoring, quarterly adversarial exercises, and a standing
+                relationship with your team. We stay until you no longer need us — and
+                we measure that honestly.
+              </p>
+              <div class="tags">
+                <span>Continuous Monitoring</span><span>Purple Team</span><span>Readiness Reviews</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AVAILABILITY ============ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="idx reveal"><span class="idx-num">06 —</span>Availability</div>
+        <div>
+          <h2 class="reveal delay-1">Remote. Responsive. <em>Ready.</em></h2>
+          <p class="lede reveal delay-2">
+            Cyntraix operates remotely by design — a deliberate choice that keeps response
+            times tight, coverage continuous, and the security posture boundary-agnostic.
+          </p>
+        </div>
+      </div>
+
+      <div class="avail-grid reveal">
+        <div class="avail-cell">
+          <div class="lbl">Availability</div>
+          <div class="val"><span class="dot" aria-hidden="true"></span>Available</div>
+          <div class="sub">Accepting a limited number of engagements for the current quarter.</div>
+        </div>
+        <div class="avail-cell">
+          <div class="lbl">Delivery</div>
+          <div class="val">Remote</div>
+          <div class="sub">Fully remote engagement model with on-site sessions where required by scope.</div>
+        </div>
+        <div class="avail-cell">
+          <div class="lbl">Pricing</div>
+          <div class="val">On Request</div>
+          <div class="sub">Engagements are scoped individually. Contact us for a confidential conversation.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="cta-block" id="contact">
+    <img src="cyntraix-logo.jpeg" alt="" class="cta-mark" />
+    <div class="eyebrow">Protect your progress · Secure your future</div>
+    <h2>Begin a <em>quiet</em> conversation.</h2>
+    <p class="sub">
+      Every Cyntraix engagement starts the same way: a confidential, no-pressure conversation
+      about what you are defending, what you are building, and how we can help you do both
+      with greater precision.
+    </p>
+    <div class="actions">
+      <a href="https://www.linkedin.com/company/cyntraix/" target="_blank" rel="noopener" class="cta-btn primary">
+        Request services
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+      <a href="https://www.linkedin.com/company/cyntraix/" target="_blank" rel="noopener" class="cta-btn">
+        Connect on LinkedIn
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="footer-grid">
+    <div class="foot-brand">
+      <div class="brand">
+        <img src="cyntraix-logo.jpeg" alt="" class="brand-mark" />
+        <span class="brand-text">Cyntraix<sup>™</sup></span>
+      </div>
+      <p>
+        A premier high-tech cyber solutions provider. Protecting the digital heartbeat of modern
+        enterprises through precision, innovation, and an unwavering commitment to excellence.
+      </p>
+      <div class="foot-social">
+        <a href="https://www.linkedin.com/company/cyntraix/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z" /></svg>
+        </a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h5>Capabilities</h5>
+      <ul>
+        <li><a href="#competencies">Threat Intelligence</a></li>
+        <li><a href="#competencies">Zero Trust</a></li>
+        <li><a href="#competencies">Cloud Security</a></li>
+        <li><a href="#competencies">Incident Response</a></li>
+        <li><a href="#competencies">Asset Hardening</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="#services">Information Security</a></li>
+        <li><a href="#services">Software Testing</a></li>
+        <li><a href="#services">Project Management</a></li>
+        <li><a href="#services">Technical Support</a></li>
+        <li><a href="#services">IT Law</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#philosophy">Philosophy</a></li>
+        <li><a href="#approach">Approach</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="https://www.linkedin.com/company/cyntraix/" target="_blank" rel="noopener">LinkedIn</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-base">
+    <div>© 2025 Cyntraix. All rights reserved.</div>
+    <div>Founded 2025 · Technology, Information &amp; Internet</div>
+    <div>
+      <a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Disclosure</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ---- Live clock for the scope panel ---- */
+  (function () {
+    const el = document.getElementById('liveClock');
+    if (!el) return;
+    const pad = n => String(n).padStart(2, '0');
+    const tick = () => {
+      const d = new Date();
+      el.textContent =
+        `${pad(d.getUTCHours())} : ${pad(d.getUTCMinutes())} : ${pad(d.getUTCSeconds())} · UTC`;
+    };
+    tick();
+    setInterval(tick, 1000);
+  })();
+
+  /* ---- Reveal on scroll ---- */
+  (function () {
+    const els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(e => e.classList.add('in'));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+    els.forEach(el => io.observe(el));
+  })();
+</script>
+
+</body>
+</html>
